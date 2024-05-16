@@ -1,111 +1,50 @@
+# 🔐 Smart Contract for Asset Management on a Distributed Ledger (Go)
 
-# 🤖 Multi-Agent Logistics Planning with Reinforcement Learning
+## 📘 Overview
 
-## 🧭 Overview
-
-This project presents a custom **multi-agent logistics environment** designed to explore the use of **reinforcement learning (RL)** for efficient task planning and coordination in automated delivery systems. Inspired by the **crafting-world problem** and recent success in **Compositional Plan Vectors**, this project models real-world logistics operations involving **factories**, **recharge stations**, and **intelligent LogisticBots**.
-
-Built using a **customized OpenAI Gym environment**, this simulation facilitates experimentation with several RL algorithms, including **DQN, SARSA, and A2C**, for sequential task planning in complex environments.
+This project demonstrates a basic **smart contract implementation in Go**, designed to interact with a decentralized ledger. It is a simplified simulation that introduces core smart contract principles such as **asset creation**, **ownership transfer**, and **state querying**. The focus is to showcase how **Go** can be used for writing smart contracts that could be integrated with blockchain systems like **Hyperledger Fabric**.
 
 ---
 
-## 📽️ Demo
+## 🧠 Key Features
 
-Here’s a visual demo of the agent operating in the custom logistics environment:
-
-![Logistics RL Agent Demo](output.gif)
-
----
-
-## 🧪 Motivation
-
-In logistics, coordinating a sequence of dependent tasks—especially with multiple agents—is a critical yet challenging problem. Traditional algorithms often fall short when adapting dynamically to environmental constraints, energy limitations, and task dependencies. Our project addresses this challenge using RL for:
-
-- Dynamic task scheduling
-- Adaptive routing
-- Efficient energy/resource management
+- 🔐 **Create Asset** – Add new assets with a unique ID and owner
+- 🔄 **Transfer Asset** – Change the ownership of an existing asset
+- 📥 **Query Asset** – Retrieve asset details from the ledger
+- ❌ **Delete Asset** – (Optional) Remove an asset for test/demo purposes
+- 🧾 **State Ledger** – Mimics persistent storage of asset state using a key-value structure
 
 ---
 
-## 🛠️ Key Components
+## 🛠️ Technologies Used
 
-### 🔁 Environments
-
-- **Custom Logistic Environment**  
-  Includes `Factory`, `RechargeStation`, and `LogisticBot` classes for a modular setup with defined reward mechanics.
-
-- **Chaotic Warehouse Environment**  
-  Realistic warehouse dynamics using the `stable-baselines3` framework and `Intrinsic Curiosity Module` to encourage exploration.
-
-### 🧠 RL Algorithms Tested
-
-- **DQN (Deep Q-Networks)** – ✅ Best performing
-- **SARSA**
-- **A2C (Advantage Actor Critic)**
-
-### 📦 Agent Behavior
-
-Agents are trained to:
-- Pick up and deliver items across the grid
-- Recharge efficiently to prevent power loss
-- Avoid redundant or harmful actions (e.g., overcharging, failed pickups)
-- Optimize delivery sequences
+- **Language**: Go (Golang)
+- **Execution**: Local simulation or integration-ready for Hyperledger Fabric chaincode
+- **Storage Abstraction**: In-memory or blockchain ledger store
+- **Function Routing**: Entry-point handler dispatches calls to internal functions
 
 ---
 
-## 🎯 Reward Model
+## 🚀 How It Works
 
-| Action                          | Reward/Penalty        |
-|---------------------------------|------------------------|
-| Visit important location        | +Small reward          |
-| Successful delivery             | +Large reward          |
-| Recharging (limited)            | +Scaled reward         |
-| Redundant recharging            | -Penalty               |
-| Full storage / failed pickup    | -Penalty               |
-| Agent death                     | -Large penalty         |
-
----
-
-## 📈 Results
-
-DQN consistently outperformed other algorithms in custom and warehouse environments. Key metrics include:
-
-- ⏱️ Delivery Time
-- 🔋 Energy Consumption
-- 🚚 Task Throughput
-
-Experiments showed DQN-trained agents could dynamically sequence and execute multi-step tasks with high reliability, showcasing the potential of RL in autonomous logistics systems.
+1. A client sends a transaction request to the smart contract
+2. The contract checks the function name and routes it internally
+3. Depending on the call, it will:
+   - Create and store a new asset
+   - Update the owner of an asset
+   - Retrieve data associated with an asset ID
+4. All transactions assume a simple key-value storage format (`map[string]string` style)
 
 ---
 
-## 👨‍💻 Project Team
+## 📊 Sample Functions (Defined in `smartcontract.go`)
 
-- **Pulkit Garg** – Team Lead  
-- Aditya Chakravarthi  
-- Ayush Joshi  
-- Rupesh Barve  
-- Aahn Sachin Deshpande  
+```go
+func CreateAsset(ctx contractapi.TransactionContextInterface, id string, owner string) error
+func ReadAsset(ctx contractapi.TransactionContextInterface, id string) (string, error)
+func TransferAsset(ctx contractapi.TransactionContextInterface, id string, newOwner string) error
+func DeleteAsset(ctx contractapi.TransactionContextInterface, id string) error
+```
 
----
+Each function uses the `contractapi` interface to interact with the ledger, enabling plug-and-play usage within a real blockchain system like Hyperledger Fabric.
 
-## 📂 Files & Artifacts
-
-- `environment/`: Custom Gym environment codebase
-- `training/`: Scripts for training DQN, SARSA, and A2C agents
-- `results/`: Evaluation results and saved models
-- `posters/`: Final presentation posters
-- `output.gif`: Simulation demo
-- `README.md`: Project overview and documentation
-
----
-
-## 📌 Conclusion
-
-This project demonstrates how reinforcement learning, particularly DQN, can be applied to **complex, multi-agent logistics environments** to enable adaptive, efficient, and autonomous task planning. The results offer promising directions for improving **supply chain automation**, **robotics**, and **dynamic scheduling systems**.
-
----
-
-## 📎 Related Work
-
-- [Wei et al., 2022] Compositional Plan Vectors in the Crafting World
-- [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) – Reinforcement learning library

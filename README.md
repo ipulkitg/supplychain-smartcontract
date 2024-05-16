@@ -48,3 +48,29 @@ func DeleteAsset(ctx contractapi.TransactionContextInterface, id string) error
 
 Each function uses the `contractapi` interface to interact with the ledger, enabling plug-and-play usage within a real blockchain system like Hyperledger Fabric.
 
+---
+
+## 🛠️ Setup & Run (Local Test)
+
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/yourusername/smartcontract-asset-go.git
+   cd smartcontract-asset-go
+   ```
+
+2. **Build the contract (if used standalone):**
+   ```bash
+   go build smartcontract.go
+   ```
+
+3. **Run logic via Go test/driver file:**  
+   Add a custom driver (`main.go`) to call the functions and simulate usage.
+
+   Example usage inside `main.go`:
+   ```go
+   CreateAsset(ctx, "asset1", "Alice")
+   TransferAsset(ctx, "asset1", "Bob")
+   ```
+
+> ⚠️ This contract currently does not include a main or test driver. You may create one to simulate function calls or embed this contract within a Hyperledger Fabric deployment.
+---
